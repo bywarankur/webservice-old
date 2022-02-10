@@ -27,3 +27,6 @@ HELP.md
 mvnw
 mvnw.cmd
 webservice.iml
+
+target
+target/*
