@@ -28,5 +28,4 @@ mvnw
 mvnw.cmd
 webservice.iml
 
-target
-target/*
+target/**
