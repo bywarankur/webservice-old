@@ -20,7 +20,7 @@ class WebserviceApplicationTests {
     void contextLoads() {
         assertThat(controller).isNotNull();
         String response = this.restTemplate.getForObject(
-                "http://localhost:8080/api/v1/healthz", String.class);
+                "http://localhost:8080/healthz", String.class);
         assertThat(response.contains(
                 "{\"healthCheckDetails\":\"Service is Healthy\",\"healthStatus\":\"HEALTHY\"}"));
     }
