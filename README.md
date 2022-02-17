@@ -10,11 +10,11 @@ Summary
 Tools and Technologies
 ----------------------
 
-| Infra                | Tools/Technologies                   |
-|----------------------|--------------------------------------|
-| Webapp               | Java, Maven, Spring Boot             |
-| Github               | Github Actions                       |
-
+| Infra    | Tools/Technologies       |
+|----------|--------------------------|
+| Webapp   | Java, Maven, Spring Boot |
+| Github   | Github Actions           |
+| Database | MySQL                    |
 
 APIs
 ----------------------
@@ -25,6 +25,89 @@ APIs
   ```
   {"healthCheckDetails":"Service is Healthy","healthStatus":"HEALTHY"}
     ```
+(2) **Create User**
+- Path: ``/v1/user``
+- HTTP Method POST
+- Parameters:
+```
+ {
+     "first_name": "...",
+     "last_name": "...",
+     "password": "...",
+     "username": "..."
+  }
+```
+- Auth: None
+- Expected response: 
+  - HTTP **201** OK indicating the user was created
+    ```
+    {
+       "id": "...",
+       "first_name": "...",
+       "last_name": "...",
+       "username": "...",
+       "account_created": "...",
+       "account_updated": "..."
+    }
+    ```
+  - HTTP **400** Bad Request if create user request payload is invalid
+  - HTTP **400** Bad Request if user already exists
+
+(3) **Get User**
+- Path: ``/v1/user/self``
+- HTTP Method GET
+- Parameters: None
+- Auth: Basic auth (username/password)
+- Expected response:
+  - HTTP **200** OK indicating the user was created
+    ```
+    {
+       "id": "...",
+       "first_name": "...",
+       "last_name": "...",
+       "username": "...",
+       "account_created": "...",
+       "account_updated": "..."
+    }
+    ```
+  - HTTP **401** Bad credentials if invalid username/password provided
+
+(4) **Put User**
+- Path: ``/v1/user/self``
+- HTTP Method PUT
+- Parameters:
+```
+ {
+     "first_name": "...",
+     "last_name": "...",
+     "password": "...",
+  }
+```
+- Auth: Basic auth (username/password)
+- Expected response:
+  - HTTP **204** indicating user details were updated
+  - HTTP **401** Bad credentials if invalid username/password provided
+  - HTTP **400** Bad Request if update user request payload is invalid
+
+Database
+----------------------
+- **DB**: MySQL
+- **Schema**:
+```
+Users Table
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| id              | varchar(60) | NO   |     | NULL    |       |
+| user_name       | varchar(60) | NO   | PRI | NULL    |       |
+| first_name      | varchar(60) | NO   |     | NULL    |       |
+| last_name       | varchar(60) | NO   |     | NULL    |       |
+| password        | varchar(60) | NO   |     | NULL    |       |
+| account_created | varchar(60) | NO   |     | NULL    |       |
+| account_updated | varchar(60) | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+```
+- Password is stored using Bcrypt Hash + Salt
 
 Web service configuration
 ----------------------
